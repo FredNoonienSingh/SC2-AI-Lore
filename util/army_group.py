@@ -1,4 +1,3 @@
-from sc2 import Unit
 from sc2.bot_ai import BotAI
 from sc2.position import Point3
 
@@ -10,7 +9,7 @@ class ArmyGroup:
         self.complete = False 
         self.health = 0
         self.position = Point3((0,0,0))
-        self.unit_types = self.composition.keys()
+        self.unit_types = list(self.composition.keys())
         self.units = self.create_units_dict(self)
         self.losses = []
 
@@ -23,7 +22,7 @@ class ArmyGroup:
                 return False
         return True
     
-    def add_unit(self, unit: Unit):
+    def add_unit(self, unit):
         self.units.get(unit.name).append(unit)
 
     def calc_health(self) -> float:
