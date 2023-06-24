@@ -5,19 +5,14 @@ from sc2 import maps
 from sc2.bot_ai import BotAI
 from sc2.main import run_game
 from sc2.data import Race, Difficulty
-from sc2.player import Bot, Computer
-from sc2.position import Point3
-from sc2.ids.unit_typeid import UnitTypeId
+from sc2.player import Bot, Computer, Human
 
-
-"""custom util"""
-from util.army_group import ArmyGroup
-from util.can_build import can_build_unit, can_build_structure
-from util.in_proximity import unit_in_proximity, structure_in_proximity
-
+"""abstractions"""
+from micro import micro
+from macro import macro
 
 class HalBot(BotAI):
-    
+
     def __init__(self, debug:bool=False)->None:
         self.race = Race.Protoss
         self.name = "HalBot"
@@ -29,75 +24,9 @@ class HalBot(BotAI):
         await self.chat_send(f"i am {self.name} Version {self.version}\n")
 
     async def on_step(self, iteration:int):
-        if self.townhalls:
-            await self.distribute_workers(resource_ratio=2)
-            max_distance = 10
-            for nexus in self.townhalls:
-                if self.debug:
-                    self.client.debug_sphere_out(nexus ,10, (0,255,0))
-
-                if nexus.surplus_harvesters < 0: 
-                    if can_build_unit(self,UnitTypeId.PROBE) and not nexus.is_active:
-                        nexus.train(UnitTypeId.PROBE)
-                
-                build_pos = nexus.position.towards(self.game_info.map_center)
-                
-                if not structure_in_proximity(self, "Pylon", nexus, max_distance) and len(self.structures(UnitTypeId.PYLON))>1:
-                    if can_build_structure(self,UnitTypeId.PYLON):
-                        await self.build(UnitTypeId.PYLON,near=build_pos,build_worker=self.workers.prefer_idle.closest_to(build_pos))
-                
-                if self.structures(UnitTypeId.FORGE) and not structure_in_proximity(self, "PhotonCannon", nexus, max_distance):
-                   if can_build_structure(self, UnitTypeId.PHOTONCANNON):
-                        await self.build(UnitTypeId.PHOTONCANNON,near=build_pos,build_worker=self.workers.prefer_idle.closest_to(build_pos))
-
-            build_pos = self.main_base_ramp.protoss_wall_pylon.towards(self.game_info.map_center)
-
-            if can_build_structure(self, UnitTypeId.GATEWAY):
-                
-                if len(self.structures(UnitTypeId.GATEWAY))<3: 
-                    build_pos = self.main_base_ramp.protoss_wall_warpin.towards(self.game_info.map_center)
-                    await self.build(UnitTypeId.GATEWAY,near=build_pos,build_worker=self.workers.prefer_idle.closest_to(build_pos))                
-            
-            if can_build_structure(self, UnitTypeId.FORGE) and self.structures(UnitTypeId.GATEWAY):
-                
-                if not self.structures(UnitTypeId.FORGE):
-                    build_pos = self.main_base_ramp.protoss_wall_warpin.towards(self.game_info.map_center)
-                    await self.build(UnitTypeId.FORGE,near=build_pos)
-            
-            if can_build_structure(self, UnitTypeId.PYLON) and self.supply_left<3 and not self.supply_cap == 200:
-                await self.build(UnitTypeId.PYLON,near=build_pos,build_worker=self.workers.prefer_idle.closest_to(build_pos))
-
-            if not self.structures(UnitTypeId.CYBERNETICSCORE):
-                
-                if can_build_structure(self, UnitTypeId.CYBERNETICSCORE):
-                    await self.build(UnitTypeId.CYBERNETICSCORE, near=build_pos,build_worker=self.workers.prefer_idle.closest_to(build_pos))
-
-            for gate in self.structures(UnitTypeId.GATEWAY):
-                
-                if can_build_unit(self, UnitTypeId.STALKER) and not gate.is_active:
-                    gate.train(UnitTypeId.STALKER)
-                
-                if can_build_unit(self, UnitTypeId.ZEALOT) and not gate.is_active:
-                    gate.train(UnitTypeId.ZEALOT)
-
-            enemy_ground_units = self.enemy_units.filter(lambda unit: unit.is_flying == False)
-            enemy_airforce = self.enemy_units.filter(lambda unit: unit.is_flying == True)
-
-            for zealot in self.units(UnitTypeId.ZEALOT):
-                if zealot.is_idle and enemy_ground_units:
-                     zealot.attack(enemy_ground_units.closest_n_units(zealot, 5)[0])
-                #if zealot.shield_percentage < 0.5:
-                 #   zealot.move(self.game_info.map_center)
-                   
-                #if len(self.units(UnitTypeId.ZEALOT))+len(self.units(UnitTypeId.STALKER))>100:
-                 #   zealot.attack(self.enemy_start_locations[0])
-
-            if can_build_structure(self,UnitTypeId.NEXUS):
-                await self.expand_now()
-            return
-
-        await self.chat_send("gg (you are probably a smurfing hackcheater anyway !!!)")
-        await self.client.leave()
+            await macro(self)
+            await micro(self)
+            #await self.client.leave()
 
 
 if __name__ == "__main__":
