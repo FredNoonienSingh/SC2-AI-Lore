@@ -7,6 +7,8 @@ from sc2.ids.upgrade_id import UpgradeId
 from sc2.ids.ability_id import AbilityId
 from sc2.ids.unit_typeid import UnitTypeId
 
+from actions.stay_out_of_range import stay_out_of_range
+from util.in_proximity import unit_in_proximity
 
 async def micro(bot: BotAI): 
     
@@ -23,7 +25,7 @@ async def micro(bot: BotAI):
             if voidray.is_idle and enemy_airforce: 
                 enemy = enemy_airforce.closest_to(voidray)
                 if enemy.is_armored:
-                    voidray(AbilityId.EFFECT_VOIDRAYPRISMATICALIGNMENT)
+                    bot.do(voidray(AbilityId.EFFECT_VOIDRAYPRISMATICALIGNMENT))
                 voidray.attack(enemy)
                 if bot.debug: 
                     bot.client.debug_line_out(voidray, enemy, (0,255,255))
@@ -36,6 +38,8 @@ async def micro(bot: BotAI):
             if zealot.is_idle and enemy_ground_units:
                 enemy = enemy_ground_units.closest_n_units(zealot, 5)[0]
                 zealot.attack(enemy)
+            if zealot.shield_percentage < 0.75:
+                await stay_out_of_range(bot, zealot)
             
         for stalker in bot.units(UnitTypeId.STALKER):
             if stalker.is_idle and enemy_ground_units:
@@ -43,7 +47,7 @@ async def micro(bot: BotAI):
                 stalker.attack(enemy)
             if stalker.shield_percentage < 0.5 and enemy_ground_units :
                 enemy = enemy_ground_units.closest_n_units(stalker, 5)[0]
-                stalker.move(stalker.position.towards(enemy, -(enemy.ground_range+1)))
+                stalker.move(stalker.position.towards(enemy, -1))
             if len(bot.units(UnitTypeId.ZEALOT))+len(bot.units(UnitTypeId.STALKER))>100:
                 stalker.attack(bot.enemy_start_locations[0])
                 zealot.attack(bot.enemy_start_locations[0])

@@ -31,7 +31,7 @@ class HalBot(BotAI):
 
 if __name__ == "__main__":
     AiPlayer = HalBot()
-    run_game(maps.get("BlackburnAIE"), [
+    run_game(maps.get("LightshadeAIE"), [
         Bot(AiPlayer.race, HalBot(debug=True)),
         Computer(Race.Terran, Difficulty.Medium)
     ], realtime=False)
