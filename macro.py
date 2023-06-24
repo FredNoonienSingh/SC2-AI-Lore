@@ -45,18 +45,18 @@ async def macro(bot:BotAI):
                             await bot.build(UnitTypeId.PHOTONCANNON,near=build_pos,build_worker=bot.workers.prefer_idle.closest_to(build_pos))
 
             build_pos = bot.main_base_ramp.protoss_wall_pylon.towards(bot.game_info.map_center)
-            
+
             if not bot.structures(UnitTypeId.GATEWAY): 
                 if can_build_structure(bot, UnitTypeId.GATEWAY):
                     build_pos = bot.main_base_ramp.protoss_wall_warpin.towards(bot.game_info.map_center)
                     await bot.build(UnitTypeId.GATEWAY,near=build_pos,build_worker=bot.workers.prefer_idle.closest_to(build_pos))                
-            
+
             if can_build_structure(bot, UnitTypeId.FORGE) and bot.structures(UnitTypeId.GATEWAY):
                 
                 if not bot.structures(UnitTypeId.FORGE):
                     build_pos = bot.main_base_ramp.protoss_wall_warpin.towards(bot.game_info.map_center)
                     await bot.build(UnitTypeId.FORGE,near=build_pos)
-            
+
             if can_build_structure(bot, UnitTypeId.PYLON) and bot.supply_left<3 and not bot.supply_cap == 200:
                 await bot.build(UnitTypeId.PYLON,near=build_pos,build_worker=bot.workers.prefer_idle.closest_to(build_pos))
 
