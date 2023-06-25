@@ -24,9 +24,11 @@ class HalBot(BotAI):
         await self.chat_send(f"i am {self.name} Version {self.version}\n")
 
     async def on_step(self, iteration:int):
-            await macro(self)
-            await micro(self)
-            #await self.client.leave()
+            if self.townhalls and self.units:
+                await macro(self)
+                await micro(self)
+                return 
+            await self.client.leave()
 
 
 if __name__ == "__main__":
