@@ -24,9 +24,9 @@ async def macro(bot:BotAI):
             await bot.distribute_workers(resource_ratio=2)
             max_distance = 10
             for nexus in bot.townhalls:
-                for stargate in bot.structures(UnitTypeId.STARGATE):
-                    if stargate.is_active:
-                        await chronoboost(bot, nexus, stargate)
+                for gate in bot.structures(UnitTypeId.GATEWAY):
+                    if gate.is_active:
+                        await chronoboost(bot, nexus, gate)
                 if bot.debug:
                     bot.client.debug_sphere_out(nexus ,10, (0,255,0))
 
@@ -47,36 +47,36 @@ async def macro(bot:BotAI):
                     if bot.structures(UnitTypeId.FORGE) and not structure_in_proximity(bot, "PhotonCannon", nexus, max_distance):
                        if can_build_structure(bot, UnitTypeId.PHOTONCANNON):
                             await bot.build(UnitTypeId.PHOTONCANNON,near=build_pos,build_worker=bot.workers.prefer_idle.closest_to(build_pos))
-
+             
             build_pos = bot.main_base_ramp.protoss_wall_pylon.towards(bot.game_info.map_center)
-
+             
             if not bot.structures(UnitTypeId.GATEWAY): 
                 if can_build_structure(bot, UnitTypeId.GATEWAY):
                     build_pos = bot.main_base_ramp.protoss_wall_warpin.towards(bot.game_info.map_center)
                     await bot.build(UnitTypeId.GATEWAY,near=build_pos,build_worker=bot.workers.prefer_idle.closest_to(build_pos))                
-
+             
             if can_build_structure(bot, UnitTypeId.FORGE) and bot.structures(UnitTypeId.GATEWAY):
                 
                 if not bot.structures(UnitTypeId.FORGE):
                     build_pos = bot.main_base_ramp.protoss_wall_warpin.towards(bot.game_info.map_center)
                     await bot.build(UnitTypeId.FORGE,near=build_pos)
-
+             
             if can_build_structure(bot, UnitTypeId.PYLON) and bot.supply_left<3 and not bot.supply_cap == 200:
                 await bot.build(UnitTypeId.PYLON,near=build_pos,build_worker=bot.workers.prefer_idle.closest_to(build_pos))
-
+             
             if not bot.structures(UnitTypeId.CYBERNETICSCORE):
                 
                 if can_build_structure(bot, UnitTypeId.CYBERNETICSCORE):
                     await bot.build(UnitTypeId.CYBERNETICSCORE, near=build_pos,build_worker=bot.workers.prefer_idle.closest_to(build_pos))
-
+             
             if bot.structures(UnitTypeId.GATEWAY) and bot.structures(UnitTypeId.CYBERNETICSCORE):
                 if not bot.structures(UnitTypeId.TWILIGHTCOUNCIL):
                     if can_build_structure(bot, UnitTypeId.TWILIGHTCOUNCIL):
                         await bot.build(UnitTypeId.TWILIGHTCOUNCIL, near=build_pos)
             
             for council in bot.structures(UnitTypeId.TWILIGHTCOUNCIL).ready:
-                if bot.can_afford(UpgradeId.CHARGE) and not bot.already_pending_upgrade(UpgradeId.CHARGE):
-                    council.research(UpgradeId.CHARGE)
+                if bot.can_afford(UpgradeId.BLINKTECH) and not bot.already_pending_upgrade(UpgradeId.BLINKTECH):
+                    council.research(UpgradeId.BLINKTECH)
 
                 if not bot.structures(UnitTypeId.STARGATE):
                     if can_build_structure(bot, UnitTypeId.STARGATE):
@@ -84,17 +84,17 @@ async def macro(bot:BotAI):
             
             for gate in bot.structures(UnitTypeId.GATEWAY):
                 
-                #if can_build_unit(bot, UnitTypeId.STALKER) and not gate.is_active:
-                 #   gate.train(UnitTypeId.STALKER)
+                if can_build_unit(bot, UnitTypeId.STALKER) and not gate.is_active:
+                    gate.train(UnitTypeId.STALKER)
                 
-                if can_build_unit(bot, UnitTypeId.ZEALOT) and not gate.is_active:
-                    gate.train(UnitTypeId.ZEALOT)
-                    
+                #if can_build_unit(bot, UnitTypeId.ZEALOT) and not gate.is_active:
+                #    gate.train(UnitTypeId.ZEALOT)
 
             for gate in bot.structures(UnitTypeId.STARGATE):
                 ship = UnitTypeId.PHOENIX #if len(bot.units(UnitTypeId.PHOENIX)) == 0 or len(bot.units(UnitTypeId.VOIDRAY)) >= len(bot.units(UnitTypeId.PHOENIX)) else UnitTypeId.VOIDRAY 
                 if can_build_unit(bot,ship) and not gate.is_active:
-                    gate.train(ship)
-
+                    pass
+                    #gate.train(ship)
+             
             if can_build_structure(bot,UnitTypeId.NEXUS):
                 await bot.expand_now()
