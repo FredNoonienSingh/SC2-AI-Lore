@@ -8,7 +8,7 @@ from sc2.ids.ability_id import AbilityId
 from sc2.ids.unit_typeid import UnitTypeId
 
 from actions.stay_out_of_range import stay_out_of_range
-from util.in_proximity import unit_in_proximity
+
 
 async def micro(bot: BotAI): 
     

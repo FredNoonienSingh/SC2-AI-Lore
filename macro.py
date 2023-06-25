@@ -5,6 +5,7 @@ from sc2.data import Race, Difficulty
 from sc2.player import Bot, Computer, Human
 from sc2.position import Point3
 from sc2.ids.unit_typeid import UnitTypeId
+from sc2.ids.ability_id import AbilityId
 from sc2.ids.upgrade_id import UpgradeId
 
 
@@ -85,6 +86,7 @@ async def macro(bot:BotAI):
                 
                 if can_build_unit(bot, UnitTypeId.ZEALOT) and not gate.is_active:
                     gate.train(UnitTypeId.ZEALOT)
+                    bot.do(gate(AbilityId.RALLY_BUILDING,bot.game_info.map_center))
 
             for gate in bot.structures(UnitTypeId.STARGATE):
                 #ship = UnitTypeId.PHOENIX if len(bot.units(UnitTypeId.PHOENIX)) == 0 or len(bot.units(UnitTypeId.VOIDRAY)) >= len(bot.units(UnitTypeId.PHOENIX)) else UnitTypeId.VOIDRAY 
