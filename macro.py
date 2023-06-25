@@ -81,17 +81,17 @@ async def macro(bot:BotAI):
             
             for gate in bot.structures(UnitTypeId.GATEWAY):
                 
-                #if can_build_unit(bot, UnitTypeId.STALKER) and not gate.is_active:
-                 #   gate.train(UnitTypeId.STALKER)
+                if can_build_unit(bot, UnitTypeId.STALKER) and not gate.is_active:
+                    gate.train(UnitTypeId.STALKER)
                 
                 if can_build_unit(bot, UnitTypeId.ZEALOT) and not gate.is_active:
                     gate.train(UnitTypeId.ZEALOT)
-                    bot.do(gate(AbilityId.RALLY_BUILDING,bot.game_info.map_center))
+                    
 
             for gate in bot.structures(UnitTypeId.STARGATE):
-                #ship = UnitTypeId.PHOENIX if len(bot.units(UnitTypeId.PHOENIX)) == 0 or len(bot.units(UnitTypeId.VOIDRAY)) >= len(bot.units(UnitTypeId.PHOENIX)) else UnitTypeId.VOIDRAY 
-                if can_build_unit(bot,UnitTypeId.VOIDRAY):
-                    gate.train(UnitTypeId.VOIDRAY)
+                ship = UnitTypeId.PHOENIX #if len(bot.units(UnitTypeId.PHOENIX)) == 0 or len(bot.units(UnitTypeId.VOIDRAY)) >= len(bot.units(UnitTypeId.PHOENIX)) else UnitTypeId.VOIDRAY 
+                if can_build_unit(bot,ship):
+                    gate.train(ship)
 
             if can_build_structure(bot,UnitTypeId.NEXUS):
                 await bot.expand_now()

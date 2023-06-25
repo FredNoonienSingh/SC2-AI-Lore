@@ -8,6 +8,7 @@ from sc2.ids.ability_id import AbilityId
 from sc2.ids.unit_typeid import UnitTypeId
 
 from actions.stay_out_of_range import stay_out_of_range
+from actions.abilities import *
 
 
 async def micro(bot: BotAI): 
@@ -20,12 +21,14 @@ async def micro(bot: BotAI):
             if phoenix.is_idle and enemy_airforce: 
                 enemy = enemy_airforce.closest_to(phoenix)
                 phoenix.attack(enemy)
+            else:
+                await stay_out_of_range(bot, phoenix)
 
         for voidray in bot.units(UnitTypeId.VOIDRAY):
             if voidray.is_idle and enemy_airforce: 
                 enemy = enemy_airforce.closest_to(voidray)
                 if enemy.is_armored:
-                    bot.do(voidray(AbilityId.EFFECT_VOIDRAYPRISMATICALIGNMENT))
+                    prismaticaligment(bot,voidray)
                 voidray.attack(enemy)
                 if bot.debug: 
                     bot.client.debug_line_out(voidray, enemy, (0,255,255))
