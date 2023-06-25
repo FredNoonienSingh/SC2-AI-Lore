@@ -11,10 +11,10 @@ async def stay_out_of_range(bot:BotAI, unit:Unit):
         if not enemy.can_attack:
             continue
         if unit.is_flying:
-            if enemy.can_attack_air and enemy.distance_to(unit)< enemy.air_range:
+            if enemy.can_attack_air and enemy.distance_to(unit)< enemy.air_range+.25:
                 unit.move(unit.position.towards(enemy, -1))
                 continue
-        if enemy.can_attack_ground and enemy.distance_to(unit)<enemy.ground_range:
+        if enemy.can_attack_ground and enemy.distance_to(unit)<enemy.ground_range+.25:
             unit.move(unit.position.towards(enemy, -1))
 
     

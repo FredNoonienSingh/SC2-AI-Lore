@@ -5,7 +5,6 @@ from sc2.data import Race, Difficulty
 from sc2.player import Bot, Computer, Human
 from sc2.position import Point3
 from sc2.ids.unit_typeid import UnitTypeId
-from sc2.ids.ability_id import AbilityId
 from sc2.ids.upgrade_id import UpgradeId
 
 
@@ -16,6 +15,7 @@ from util.in_proximity import unit_in_proximity, structure_in_proximity
 
 """actions"""
 from actions.build_structure import build_gas
+from actions.abilities import chronoboost
 
 
 async def macro(bot:BotAI):
@@ -24,6 +24,9 @@ async def macro(bot:BotAI):
             await bot.distribute_workers(resource_ratio=2)
             max_distance = 10
             for nexus in bot.townhalls:
+                for stargate in bot.structures(UnitTypeId.STARGATE):
+                    if stargate.is_active:
+                        await chronoboost(bot, nexus, stargate)
                 if bot.debug:
                     bot.client.debug_sphere_out(nexus ,10, (0,255,0))
 
@@ -81,8 +84,8 @@ async def macro(bot:BotAI):
             
             for gate in bot.structures(UnitTypeId.GATEWAY):
                 
-                if can_build_unit(bot, UnitTypeId.STALKER) and not gate.is_active:
-                    gate.train(UnitTypeId.STALKER)
+                #if can_build_unit(bot, UnitTypeId.STALKER) and not gate.is_active:
+                 #   gate.train(UnitTypeId.STALKER)
                 
                 if can_build_unit(bot, UnitTypeId.ZEALOT) and not gate.is_active:
                     gate.train(UnitTypeId.ZEALOT)
@@ -90,7 +93,7 @@ async def macro(bot:BotAI):
 
             for gate in bot.structures(UnitTypeId.STARGATE):
                 ship = UnitTypeId.PHOENIX #if len(bot.units(UnitTypeId.PHOENIX)) == 0 or len(bot.units(UnitTypeId.VOIDRAY)) >= len(bot.units(UnitTypeId.PHOENIX)) else UnitTypeId.VOIDRAY 
-                if can_build_unit(bot,ship):
+                if can_build_unit(bot,ship) and not gate.is_active:
                     gate.train(ship)
 
             if can_build_structure(bot,UnitTypeId.NEXUS):
