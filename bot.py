@@ -11,6 +11,12 @@ from sc2.player import Bot, Computer, Human
 from micro import micro
 from macro import macro
 
+"""Utils"""
+from util.camera import camera
+
+"""Banter"""
+#from banter.banter import greeting
+
 class HalBot(BotAI):
 
     def __init__(self, debug:bool=False)->None:
@@ -21,12 +27,15 @@ class HalBot(BotAI):
         self.debug = debug
 
     async def on_start(self):
-        await self.chat_send(f"i am {self.name} Version {self.version}\n")
+        pass
+        #await greeting(self)
 
     async def on_step(self, iteration:int):
             if self.townhalls and self.units:
                 await macro(self)
                 await micro(self)
+                if self.debug:
+                     await camera(self)
                 return 
             await self.client.leave()
 
