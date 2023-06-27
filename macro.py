@@ -12,6 +12,7 @@ from sc2.ids.upgrade_id import UpgradeId
 from util.army_group import ArmyGroup
 from util.can_build import can_build_unit, can_build_structure
 from util.in_proximity import unit_in_proximity, structure_in_proximity
+from util.calculate_supply import calculate_enemy_supply
 
 """actions"""
 from actions.set_rally import set_rally
@@ -21,7 +22,7 @@ from actions.abilities import chronoboost
 
 async def macro(bot:BotAI):
 
-        if bot.townhalls:
+        if bot.townhalls and bot.units:
             await bot.distribute_workers(resource_ratio=2)
             max_distance = 10
             for nexus in bot.townhalls:
@@ -114,3 +115,6 @@ async def macro(bot:BotAI):
             """
             if can_build_structure(bot,UnitTypeId.NEXUS):
                 await bot.expand_now()
+            
+            if bot.debug:
+                bot.client.debug_text_simple(str(calculate_enemy_supply(bot)))
