@@ -2,7 +2,7 @@ from sc2.bot_ai import BotAI
 from sc2.unit import Unit
 from sc2.units import Units
 
-async def position_save(bot:BotAI, position):
+def position_save(bot:BotAI, position) -> bool:
     enemy_units:Units = bot.enemy_units.closer_than(15, position)
     # 15 is the hightest attack range in the Game / any unit further away cant be in range 
     enemy_structures:Units = bot.enemy_structures.closer_than(8, position)
