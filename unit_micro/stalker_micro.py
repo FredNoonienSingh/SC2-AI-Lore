@@ -1,3 +1,4 @@
+
 """SC2"""
 from sc2.unit import Unit
 from sc2.bot_ai import BotAI 
@@ -24,13 +25,14 @@ async def stalker_micro(bot:BotAI, stalker:Unit):
         enemy : Unit = bot.enemy_units.closest_to(stalker)
         stalker.move(enemy)
         if enemy.distance_to(stalker) <= stalker.sight_range:
-            kite(stalker, enemy)
+            await kite(bot,stalker, enemy)
         distance : float = stalker.distance_to(enemy)
-        if distance > 6 and distance < 9:
+        if distance > 6 and distance < 15:
              await offensive_blink(bot, stalker, enemy)
     
     if stalker.shield_percentage < 0.5 and bot.enemy_units:
             enemy : Unit = bot.enemy_units.closest_to(stalker)
+            await defensive_blink(bot, stalker, enemy)
             await stay_out_of_range(bot, stalker)
 
 async def offensive_blink(bot:BotAI, stalker:Unit, enemy:Unit):

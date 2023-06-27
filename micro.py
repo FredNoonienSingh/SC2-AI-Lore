@@ -9,6 +9,7 @@ from unit_micro.voidray_micro import voidray_micro
 
 '''Ground Units'''
 from unit_micro.zealot_micro import zealot_micro
+from unit_micro.immortal_micro import immortal_micro
 from unit_micro.stalker_micro import stalker_micro
 
 
@@ -29,3 +30,6 @@ async def micro(bot: BotAI):
             
         for stalker in bot.units(UnitTypeId.STALKER):
            await stalker_micro(bot, stalker)
+
+        for immortal in bot.units(UnitTypeId.IMMORTAL):
+            await immortal_micro(bot, immortal)
