@@ -92,8 +92,8 @@ async def macro(bot:BotAI):
                         await bot.build(UnitTypeId.STARGATE, near=build_pos)
 
             for robo in bot.structures(UnitTypeId.ROBOTICSFACILITY):
-                if can_build_unit(bot, UnitTypeId.IMMORTAL):
-                    robo.train(UnitTypeId.IMMORTAL)
+                if can_build_unit(bot, UnitTypeId.OBSERVER) and not bot.units(UnitTypeId.OBSERVER):
+                    robo.train(UnitTypeId.OBSERVER)
             """"
             for gate in bot.structures(UnitTypeId.GATEWAY):
                 

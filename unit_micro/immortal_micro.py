@@ -1,14 +1,10 @@
 from sc2.unit import Unit
 from sc2.bot_ai import BotAI 
-from sc2.position import Point3
-from sc2.ids.unit_typeid import UnitTypeId
 from sc2.ids.buff_id import BuffId
 
 """Actions"""
 from actions.kite import kite
 
-"""Utils"""
-from util.in_proximity import unit_in_proximity
 
 
 """

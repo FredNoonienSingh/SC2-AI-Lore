@@ -12,6 +12,9 @@ from unit_micro.zealot_micro import zealot_micro
 from unit_micro.immortal_micro import immortal_micro
 from unit_micro.stalker_micro import stalker_micro
 
+'''Support Units'''
+from unit_micro.observer_micro import observer_micro
+
 
 async def micro(bot: BotAI): 
     
@@ -33,3 +36,7 @@ async def micro(bot: BotAI):
 
         for immortal in bot.units(UnitTypeId.IMMORTAL):
             await immortal_micro(bot, immortal)
+        
+        for observer in bot.units(UnitTypeId.OBSERVER):
+            target = bot.enemy_start_locations[0]
+            await observer_micro(bot, observer, target)
