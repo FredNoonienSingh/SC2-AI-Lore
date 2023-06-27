@@ -3,6 +3,9 @@
 # HalBot
 ## StarCraft 2 AI 
 
-</div>
 
 # -Under active development-
+
+</div>
+
+
