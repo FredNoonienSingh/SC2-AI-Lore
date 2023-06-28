@@ -30,7 +30,7 @@ async def micro(bot: BotAI):
         
         for zealot in bot.units(UnitTypeId.ZEALOT):
            await zealot_micro(bot, zealot, enemy_ground_units)
-            
+
         for stalker in bot.units(UnitTypeId.STALKER):
            await stalker_micro(bot, stalker)
 
