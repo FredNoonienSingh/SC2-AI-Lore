@@ -1,6 +1,6 @@
 <div align="center">
   
-# HalBot
+# LORE
 ## StarCraft 2 AI 
 
 
