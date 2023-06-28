@@ -17,4 +17,4 @@ def position_save(bot:BotAI, position) -> bool:
             return False
         if enemy.can_attack_ground and enemy.distance_to(position)<enemy.ground_range+1:
             return False
-        return True
+    return True
