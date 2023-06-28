@@ -1,6 +1,52 @@
+from sc2.ids.unit_typeid import UnitTypeId
+from sc2.ids.upgrade_id import UpgradeId
 
-class BuildOrder:
+# [Unit/Upgrade ID: TypeID, Chrono:Bool]
 
-    def __init__(self, name:str="default") -> None:
-        self.name = name
-        self.order = order
+FAST_BLINK: list = [
+    [UnitTypeId.PROBE, False],
+    [UnitTypeId.PROBE, False],
+    [UnitTypeId.PYLON, False], 
+    [UnitTypeId.GATEWAY, False], 
+    [UnitTypeId.PROBE, True],
+    [UnitTypeId.PROBE, True],
+    [UnitTypeId.PROBE, True],
+    [UnitTypeId.ASSIMILATOR, False], 
+    [UnitTypeId.PROBE, False],
+    [UnitTypeId.PROBE, False],
+    [UnitTypeId.CYBERNETICSCORE, False], 
+    [UnitTypeId.NEXUS, False], 
+    [UnitTypeId.PROBE, False],
+    [UnitTypeId.ASSIMILATOR, False], 
+    [UnitTypeId.ADEPT, True], 
+    [UnitTypeId.PROBE, False],
+    [UnitTypeId.SHIELDBATTERY, False],
+    [UnitTypeId.PROBE, False],
+    [UpgradeId.WARPGATE, False],
+    [UnitTypeId.STALKER, True],
+    [UnitTypeId.TWILIGHTCOUNCIL, False], 
+    [UnitTypeId.ROBOTICSFACILITY, False], 
+    [UpgradeId.BLINKTECH, True],
+    [UnitTypeId.GATEWAY, False], 
+    [UnitTypeId.GATEWAY, False], 
+    [UnitTypeId.GATEWAY, False], 
+    [UnitTypeId.OBSERVER, True],
+    [UnitTypeId.PYLON, False], 
+    [UnitTypeId.WARPPRISM, True],
+    [UnitTypeId.STALKER, False], 
+    [UnitTypeId.ASSIMILATOR, False], 
+    [UnitTypeId.PYLON, False], 
+    [UnitTypeId.STALKER, False], 
+    [UnitTypeId.STALKER, False], 
+    [UnitTypeId.OBSERVER, False], 
+    [UnitTypeId.PYLON, False], 
+    [UnitTypeId.STALKER, False],
+    [UnitTypeId.STALKER, False],
+    [UnitTypeId.STALKER, False],
+    [UnitTypeId.STALKER, False],
+    [UnitTypeId.SHIELDBATTERY, False],
+    [UnitTypeId.STALKER, False], 
+    [UnitTypeId.STALKER, False], 
+    [UnitTypeId.ASSIMILATOR, False], 
+    [UnitTypeId.NEXUS, False]
+]
