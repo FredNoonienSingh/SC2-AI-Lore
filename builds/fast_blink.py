@@ -22,7 +22,7 @@ FAST_BLINK: list = [
     [UnitTypeId.PROBE, False],
     [UnitTypeId.SHIELDBATTERY, False],
     [UnitTypeId.PROBE, False],
-    [UpgradeId.WARPGATE, False],
+    [UpgradeId.WARPGATERESEARCH, False],
     [UnitTypeId.STALKER, True],
     [UnitTypeId.TWILIGHTCOUNCIL, False], 
     [UnitTypeId.ROBOTICSFACILITY, False], 

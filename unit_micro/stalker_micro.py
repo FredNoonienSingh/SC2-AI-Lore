@@ -6,8 +6,8 @@ from sc2.position import Point3
 from sc2.ids.unit_typeid import UnitTypeId
 
 """Actions"""
-from actions.abilities import blink
 from actions.kite import kite
+from actions.abilities import blink
 from actions.stay_out_of_range import stay_out_of_range
 
 """Utils"""
@@ -22,7 +22,7 @@ Stalker Stats:
 async def stalker_micro(bot:BotAI, stalker:Unit):
     
     if bot.enemy_units:
-        enemy : Unit = bot.enemy_units.closest_to(stalker)
+        enemy : Unit = bot.enemy_units.closest_to(stalker)    # Filter for army units
         if stalker.distance_to(enemy)>stalker.ground_range:
             stalker.move(enemy)
         
