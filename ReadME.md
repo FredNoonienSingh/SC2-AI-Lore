@@ -1,6 +1,6 @@
 <div align="center">
   
-# LORE
+# B4
 ## StarCraft 2 AI 
 
 
