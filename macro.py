@@ -1,24 +1,29 @@
 from sc2.bot_ai import BotAI
-from sc2.ids.unit_typeid import UnitTypeId
 from sc2.ids.upgrade_id import UpgradeId
+from sc2.ids.unit_typeid import UnitTypeId
 
 """custom util"""
-from util.army_group import ArmyGroup
+from util.in_proximity import structure_in_proximity
 from util.calculate_supply import calculate_enemy_supply
 from util.can_build import can_build_unit, can_build_structure
-from util.in_proximity import unit_in_proximity, structure_in_proximity
 
 """actions"""
 from actions.set_rally import set_rally
-from actions.build_structure import build_gas
 from actions.abilities import chronoboost
+from actions.build_structure import build_gas
+from actions.train_unit import train_unit, warp_in_unit
+'''constants'''
+from constants.robo_units import ROBO_UNITS
+from constants.nexus_units import NEXUS_UNITS
+from constants.gateway_units import GATEWAY_UNITS
+from constants.stargate_units import STARGATE_UNITS
 
 
 async def macro(bot:BotAI):
 
         if bot.townhalls and bot.units:
             await bot.distribute_workers(resource_ratio=2)
-            max_distance = 10
+            MAX_DISTANCE = 10
             for nexus in bot.townhalls.ready:
                 for gate in bot.structures(UnitTypeId.GATEWAY):
                     if gate.is_active and not gate.buffs:
@@ -36,7 +41,7 @@ async def macro(bot:BotAI):
 
                 build_pos = nexus.position.towards(bot.game_info.map_center)
             
-                if not structure_in_proximity(bot, "Pylon", nexus, max_distance):
+                if not structure_in_proximity(bot, "Pylon", nexus, MAX_DISTANCE):
                     if can_build_structure(bot,UnitTypeId.PYLON):
                         await bot.build(UnitTypeId.PYLON,near=build_pos,build_worker=bot.workers.prefer_idle.closest_to(build_pos))
                 
@@ -45,8 +50,8 @@ async def macro(bot:BotAI):
                         await bot.expand_now()
                     return 
 
-                if structure_in_proximity(bot, "Pylon", nexus, max_distance):
-                    if bot.structures(UnitTypeId.FORGE) and not structure_in_proximity(bot, "PhotonCannon", nexus, max_distance):
+                if structure_in_proximity(bot, "Pylon", nexus, MAX_DISTANCE):
+                    if bot.structures(UnitTypeId.FORGE) and not structure_in_proximity(bot, "PhotonCannon", nexus, MAX_DISTANCE):
                        if can_build_structure(bot, UnitTypeId.PHOTONCANNON):
                             await bot.build(UnitTypeId.PHOTONCANNON,near=build_pos,build_worker=bot.workers.prefer_idle.closest_to(build_pos))
              
@@ -55,7 +60,7 @@ async def macro(bot:BotAI):
             if  not bot.structures(UnitTypeId.GATEWAY): 
                 if can_build_structure(bot, UnitTypeId.GATEWAY):
                     build_pos = bot.main_base_ramp.protoss_wall_warpin.towards(bot.game_info.map_center)
-                    await bot.build(UnitTypeId.GATEWAY,near=build_pos,build_worker=bot.workers.prefer_idle.closest_to(build_pos))                
+                    await bot.build(UnitTypeId.GATEWAY,near=build_pos,build_worker=bot.workers.prefer_idle.closest_to(build_pos))
              
             if can_build_structure(bot, UnitTypeId.FORGE) and bot.structures(UnitTypeId.GATEWAY):
                 
