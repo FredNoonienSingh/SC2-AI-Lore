@@ -17,3 +17,8 @@ async def greeting(bot:BotAI):
 
     await bot.chat_send(f"i am {bot.name} Version {bot.version}")
     await bot.chat_send(f"I see you are playing {race}, i have something against that")
+
+async def looser_bot_taunt(bot:BotAI):
+
+    if bot.enemy.name == "LucidTJS":
+        await bot.chat_send(f"Lol - {bot.enemy.name} --- JS-TrashBot ... you pathic looser ... hahahahaha")
