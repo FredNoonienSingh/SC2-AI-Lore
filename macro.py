@@ -27,7 +27,7 @@ async def macro(bot:BotAI):
         if bot.townhalls and bot.units:
             await bot.distribute_workers(resource_ratio=2)
             MAX_DISTANCE = 10
-            
+           
             build_pos = bot.main_base_ramp.protoss_wall_pylon.towards(bot.game_info.map_center)
             if bot.structures(UnitTypeId.PYLON):
                 #keep in mind:"in_closest_distance_to_group"
@@ -75,7 +75,12 @@ async def macro(bot:BotAI):
                     if await build_gas(bot, bot.structures(UnitTypeId.NEXUS).closest_to(build_pos)):
                         bot.step += 1
 
+
             if next_step[0] == UnitTypeId.NEXUS:
                 if can_build_structure(bot,UnitTypeId.NEXUS):
                     await bot.expand_now()
                     bot.step += 1
+
+            if can_build_structure(bot,UnitTypeId.NEXUS):
+                await bot.expand_now()
+            
