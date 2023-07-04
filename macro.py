@@ -23,7 +23,8 @@ async def macro(bot:BotAI):
                 for gate in bot.structures(UnitTypeId.GATEWAY):
                     if gate.is_active and not gate.buffs:
                         await chronoboost(bot, nexus, gate)
-               
+                if bot.debug:
+                    bot.client.debug_sphere_out(nexus ,10, (0,255,0))
 
                 if nexus.surplus_harvesters < 0: 
                     if can_build_unit(bot,UnitTypeId.PROBE) and not nexus.is_active:
@@ -115,3 +116,5 @@ async def macro(bot:BotAI):
             if can_build_structure(bot,UnitTypeId.NEXUS):
                 await bot.expand_now()
             
+            if bot.debug:
+                bot.client.debug_text_simple(str(calculate_enemy_supply(bot)))
