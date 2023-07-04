@@ -9,11 +9,12 @@ from actions.train_unit import train_unit, warp_in_unit
 from actions.build_structure import build_gas, build_structure
 
 '''constants'''
-from constants.buildings import BUILDINGS
+
 from constants.robo_units import ROBO_UNITS
 from constants.nexus_units import NEXUS_UNITS
 from constants.gateway_units import GATEWAY_UNITS
 from constants.stargate_units import STARGATE_UNITS
+from constants.buildings import PROTOSS_BUILDINGS as BUILDINGS
 
 """custom util"""
 from util.in_proximity import structure_in_proximity
@@ -38,14 +39,9 @@ async def macro(bot:BotAI):
             if bot.step<len(bot.build_order):
                 next_step = bot.build_order[bot.step]
             
-            print(bot.step, len(bot.build_order), next_step) 
 
-            if bot.debug:
-                bot.client.debug_text_simple(f"known Enemy Supply {calculate_enemy_supply(bot)}\n build order step {bot.step}\n {next_step}")
-                #print(next_step)
             prod_structure = None
             if next_step[0] in GATEWAY_UNITS:
-                print("i am here")
                 prod_structure = UnitTypeId.GATEWAY
             elif next_step[0] in ROBO_UNITS:
                 prod_structure = UnitTypeId.ROBOTICSFACILITY
