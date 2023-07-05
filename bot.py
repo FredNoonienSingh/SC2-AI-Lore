@@ -5,6 +5,7 @@ from random import choice
 """sc2"""
 from sc2 import maps
 from sc2.bot_ai import BotAI
+from sc2.unit import Unit
 from sc2.main import run_game
 from sc2.data import Race, Difficulty
 from sc2.player import Bot, Computer, Human
@@ -25,6 +26,7 @@ from banter.banter import greeting
 """Constants"""
 from constants.map_list import MAP_LIST
 
+"""Debug Tools"""
 from debugTools.unit_vision import render_unit_vision
 from debugTools.unit_lable import unit_label
 from debugTools.gameinfo import draw_gameinfo
@@ -32,12 +34,14 @@ from debugTools.unit_range import unit_range
 
 class B4(BotAI):
 
-    def __init__(self, debug:bool=False)->None:
+    def __init__(self, debug:bool=False, build_order:list =FAST_BLINK)->None:
         self.race = Race.Protoss
         self.name = "B-4"
         self.version = "0.1"
-        self.army_groups = []
+        self.step = 0
+
         self.debug = debug
+        self.build_order = build_order
 
     async def on_start(self):
         #print(FAST_BLINK)
@@ -54,21 +58,24 @@ class B4(BotAI):
                 if self.debug:
                     draw_gameinfo(self)
                     await camera(self)
-                    for unit in self.enemy_units:
-                        self.client.debug_sphere_out(unit, unit.ground_range, (255,255,0))
-                        self.client.debug_sphere_out(unit, unit.air_range, (255,255,0))
+                    #for unit in self.enemy_units:
+                     #   self.client.debug_sphere_out(unit, unit.ground_range, (255,255,0))
+                      #  self.client.debug_sphere_out(unit, unit.air_range, (255,255,0))
                     for unit in self.units:
                         unit_label(self, unit)
-                        unit_range(self, unit)
+                       # unit_range(self, unit)
                         render_unit_vision(self, unit)
                 return 
             await self.client.leave()
+
+    async def on_unit_created(self, unit: Unit):
+        print(await super().on_unit_created(unit))
 
 if __name__ == "__main__":
     AiPlayer = B4()
     run_game(maps.get(choice(MAP_LIST)), 
              [
-                Bot(AiPlayer.race, B4(debug=False)),
+                Bot(AiPlayer.race, B4(debug=True)),
                 Computer(choice([Race.Terran,Race.Zerg,Race.Protoss]), Difficulty.Hard)
             ], 
         realtime=True
