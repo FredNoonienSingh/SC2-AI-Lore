@@ -11,11 +11,9 @@ from sc2.ids.unit_typeid import UnitTypeId
 from util.can_build import can_build_unit
 
 async def train_unit(bot:BotAI, unit: UnitTypeId, structure:UnitTypeId) -> bool:
-    for structure in bot.structures(structure).idle:
-        if can_build_unit(bot, unit):
-            structure.train(unit)
-            return True
-        break
+    if can_build_unit(bot, unit):
+        structure.train(unit)
+        return True
     return False 
 
 async def warp_in_unit(bot: BotAI, unit:UnitTypeId, warp_in_position:Union[Point3, Unit]) -> bool:

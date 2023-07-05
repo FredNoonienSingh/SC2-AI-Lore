@@ -38,8 +38,7 @@ async def macro(bot:BotAI):
 
             if bot.step<len(bot.build_order):
                 next_step = bot.build_order[bot.step]
-            
-
+                
             prod_structure = None
             if next_step[0] in GATEWAY_UNITS:
                 prod_structure = UnitTypeId.GATEWAY
@@ -70,17 +69,11 @@ async def macro(bot:BotAI):
                         bot.step += 1
 
             if next_step[0] == UnitTypeId.ASSIMILATOR:
-                pass
                 if can_build_structure(bot, UnitTypeId.ASSIMILATOR):
                     if await build_gas(bot, bot.structures(UnitTypeId.NEXUS).closest_to(build_pos)):
                         bot.step += 1
-
 
             if next_step[0] == UnitTypeId.NEXUS:
                 if can_build_structure(bot,UnitTypeId.NEXUS):
                     await bot.expand_now()
                     bot.step += 1
-
-            if can_build_structure(bot,UnitTypeId.NEXUS):
-                await bot.expand_now()
-            
