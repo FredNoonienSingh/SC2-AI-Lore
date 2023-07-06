@@ -13,7 +13,8 @@ from util.postion_save import position_save
 from actions.stay_out_of_range import stay_out_of_range
 
 
-async def observer_micro(bot:BotAI, unit:Unit, target:Point3):
+async def observer_micro(bot:BotAI, unit:Unit):
+    target = bot.enemy_start_locations[0]
     if bot.enemy_units:
         enemy_center:Point3 = bot.enemy_units.center
         target = unit.position.towards(enemy_center, 2)

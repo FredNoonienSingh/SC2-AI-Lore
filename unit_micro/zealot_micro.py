@@ -4,7 +4,8 @@ from sc2.bot_ai import BotAI
 
 from actions.abilities import charge
 
-async def zealot_micro(bot:BotAI, zealot:Unit, enemy_ground_units:list):
+async def zealot_micro(bot:BotAI, zealot:Unit):
+    enemy_ground_units = bot.enemy_units.filter(lambda unit: unit.is_flying == False)
     if enemy_ground_units:
         enemy = enemy_ground_units.closest_n_units(zealot, 5)[0]
         if zealot.is_idle:
