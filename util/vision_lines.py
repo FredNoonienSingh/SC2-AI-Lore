@@ -1,5 +1,5 @@
 from typing import Union,Tuple
-from math import sin, pi, cos, radians
+from math import sin, pi, cos
 
 from sc2.unit import Unit
 from sc2.units import Units
@@ -38,3 +38,7 @@ class VisionLines:
 
     def propagate_lines(self):
         pass
+
+    def update(self):
+        self.cast_lines()
+        self.check_endpoint()

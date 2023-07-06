@@ -7,11 +7,12 @@ from actions.stay_out_of_range import stay_out_of_range
 
 async def phoenix_micro(
         bot:BotAI,
-        phoenix:Unit,
-        enemy_airforce:list,
-        enemy_ground_units:list
+        phoenix:Unit
         ):
-    
+    enemy_airforce = bot.enemy_units.filter(lambda unit: unit.is_flying == True)
+    enemy_ground_units = bot.enemy_units.filter(lambda unit: unit.is_flying == False)
+
+
     PREFERRED_TARGETS:list = [UnitTypeId.SIEGETANK, UnitTypeId.SIEGETANKSIEGED,  UnitTypeId.LURKER]
     if phoenix.is_idle and enemy_airforce: 
         enemy = enemy_airforce.closest_to(phoenix)

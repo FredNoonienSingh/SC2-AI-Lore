@@ -23,10 +23,10 @@ from util.can_build import can_build_unit, can_build_structure
 
 
 async def macro(bot:BotAI):
-
+        MAX_DISTANCE = 10
         if bot.townhalls and bot.units:
             await bot.distribute_workers(resource_ratio=2)
-            MAX_DISTANCE = 10
+           
            
             build_pos = bot.main_base_ramp.protoss_wall_pylon.towards(bot.game_info.map_center)
             if bot.structures(UnitTypeId.PYLON):
@@ -59,21 +59,21 @@ async def macro(bot:BotAI):
                             pass
                             #await chronoboost(bot, chrono_nexus, prod_structure)
                         bot.step += 1
-                        break
+                    break
              
-            if next_step[0] in BUILDINGS:
+            elif next_step[0] in BUILDINGS:
                 if can_build_structure(bot,next_step[0]):
                     if await build_structure(bot,next_step[0],build_pos,worker):
                         if bot.debug:
                             print(f"build {next_step[0]}")
                         bot.step += 1
 
-            if next_step[0] == UnitTypeId.ASSIMILATOR:
+            elif next_step[0] == UnitTypeId.ASSIMILATOR:
                 if can_build_structure(bot, UnitTypeId.ASSIMILATOR):
                     if await build_gas(bot, bot.structures(UnitTypeId.NEXUS).closest_to(build_pos)):
                         bot.step += 1
 
-            if next_step[0] == UnitTypeId.NEXUS:
+            elif next_step[0] == UnitTypeId.NEXUS:
                 if can_build_structure(bot,UnitTypeId.NEXUS):
                     await bot.expand_now()
                     bot.step += 1

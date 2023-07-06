@@ -26,8 +26,8 @@ def render_unit_vision(bot: BotAI, unit:Unit):
         x:float = target_x + radius * math.cos(angle)
         y:float = target_y + radius * math.sin(angle)
         line: Point3 = Point3((x,y, bot.get_terrain_z_height(Point2((x,y)))+1))
-        color: tuple = (255, 255, 255)
-        if bot.game_info.pathing_grid.is_set(Point3(line)):
+        color: tuple = (0, 255, 0)
+        if not bot.game_info.pathing_grid.is_set(Point2((int(line.x), int(line.y)))):
             color :tuple= (0, 0, 255)
         bot.client.debug_sphere_out(Point3((x,y,terrain_height)), .1, color)
         bot.client.debug_line_out(origin, line, color)

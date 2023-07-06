@@ -16,13 +16,12 @@ from actions.kite import kite, kite_towards, kite_away
 
 """Utils"""
 from util.in_proximity import unit_in_proximity
-
+from util.vision_lines import VisionLines
 """
 Stalker Stats: 
     range: 6
     Blink Range: 7
 """
-
 
 class Stalker(Unit):
 
@@ -34,8 +33,8 @@ class Stalker(Unit):
         super().__init__(proto_data, bot_object, distance_calculation_index, base_build)
         self.bot: BotAI = bot_object
         self.attack_state: bool = False
-        self.target: Union[Point3, Unit] = None
-        self.eta: float = None
+        self.target: Union[Point3, Unit] = self.calculate_target()
+        self.vision = VisionLines(self.bot, self)
     
     async def blink(self, target:Union[Point3, Unit]):
         self.bot.do(self(AbilityId.EFFECT_BLINK_STALKER,target))
@@ -81,5 +80,9 @@ class Stalker(Unit):
         # check for obstacles and set position point accordingly
 
     async def update(self): 
+        self.vision.update()
+        self.calculate_target()
+        self.calculate_path()
+        
         if self.attack_state:
           self.fight()
