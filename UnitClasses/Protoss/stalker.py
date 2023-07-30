@@ -50,7 +50,7 @@ class Stalker(Unit):
 
     async def fight(self):
            if self.bot.enemy_units:
-                enemy : Unit = self.bot.enemy_units.closest_to(self)    # Filter for army units
+                enemy : Unit = self.target   # Filter for army units
         
                 if self.distance_to(enemy)>self.ground_range:
                     self.move(enemy)        
