@@ -33,7 +33,16 @@ async def macro(bot:BotAI):
                 #keep in mind:"in_closest_distance_to_group"
                 warp_in_pos = bot.structures(UnitTypeId.PYLON).closest_to(bot.enemy_start_locations[0])
             worker = bot.workers.prefer_idle.closest_to(build_pos) 
-            
+
+            if not bot.structures(UnitTypeId.PYLON) and can_build_structure(bot, UnitTypeId.PYLON):
+                await bot.build(UnitTypeId.PYLON, build_worker=worker, near=build_pos)
+            if not bot.structures(UnitTypeId.GATEWAY) and can_build_structure(bot, UnitTypeId.GATEWAY): 
+                await bot.build(UnitTypeId.GATEWAY, build_worker=worker, near=build_pos)
+            if not bot.structures(UnitTypeId.CYBERNETICSCORE) and can_build_structure(bot, UnitTypeId.CYBERNETICSCORE):
+               await bot.build(UnitTypeId.CYBERNETICSCORE, build_worker=worker, near=build_pos)
+            if not bot.structures(UnitTypeId.TWILIGHTCOUNCIL) and can_build_structure(bot, UnitTypeId.TWILIGHTCOUNCIL):
+                await bot.build(UnitTypeId.TWILIGHTCOUNCIL, build_worker=worker, near=build_pos)
+
             #chrono_nexus = bot.structures(UnitTypeId.NEXUS).filter(lambda nexus: nexus.energy > 50).closest_to(build_pos)
 
             if bot.step<len(bot.build_order):

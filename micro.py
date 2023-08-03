@@ -19,6 +19,8 @@ from unit_micro.stalker_micro import stalker_micro
 '''Support Units'''
 from unit_micro.observer_micro import observer_micro
 
+from UnitClasses.Protoss.stalker import Stalker
+
 
 async def micro(bot: BotAI): 
     
@@ -26,13 +28,18 @@ async def micro(bot: BotAI):
             UnitTypeId.PHOENIX: phoenix_micro, 
             UnitTypeId.VOIDRAY: voidray_micro, 
             UnitTypeId.ZEALOT: zealot_micro, 
-            UnitTypeId.STALKER: stalker_micro, 
+            #UnitTypeId.STALKER: stalker_micro, 
             UnitTypeId.IMMORTAL: immortal_micro, 
             UnitTypeId.OBSERVER: observer_micro
         }
 
+        for stalker in bot.stalkers:
+            await stalker.update()
+
         for unit_type in unit_functions: 
             await execute_orders(bot, unit_type, unit_functions.get(unit_type))
+
+        
 
 async def execute_orders(bot, unit_type:UnitTypeId, order:callable):
     for unit in bot.units(unit_type):

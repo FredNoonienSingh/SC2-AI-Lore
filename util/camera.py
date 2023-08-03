@@ -8,6 +8,10 @@ from sc2.ids.unit_typeid import UnitTypeId
 
 async def camera(bot:BotAI):
         if bot.units(UnitTypeId.OBSERVER):
-            stalker:Unit = bot.units(UnitTypeId.OBSERVER).closest_to(bot.enemy_start_locations[0])
-            if stalker:
-                await bot.client.move_camera(stalker)
+            ob:Unit = bot.units(UnitTypeId.OBSERVER).closest_to(bot.enemy_start_locations[0])
+            if ob:
+                await bot.client.move_camera(ob)
+        selected_units = bot.units.filter(lambda unit: unit.is_selected)
+        if selected_units: 
+             position: Point3 = selected_units.center
+             await bot.client.move_camera(position)
