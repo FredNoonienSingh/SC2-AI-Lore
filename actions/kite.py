@@ -7,8 +7,8 @@ from sc2.position import Point3
 from actions.stay_out_of_range import stay_out_of_range
 
 async def kite(bot: BotAI,unit:Unit):
-    position : Point3 = unit.position.towards(unit.target, -2)
-    
+    position : Point3 = unit.position.towards(unit.target, -10)
+        
     if unit.weapon_cooldown < 0:
         unit.move(position)
         #await stay_out_of_range(bot, unit)
