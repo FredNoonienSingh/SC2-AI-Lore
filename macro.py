@@ -34,15 +34,6 @@ async def macro(bot:BotAI):
                 warp_in_pos = bot.structures(UnitTypeId.PYLON).closest_to(bot.enemy_start_locations[0])
             worker = bot.workers.prefer_idle.closest_to(build_pos) 
 
-            if not bot.structures(UnitTypeId.PYLON) and can_build_structure(bot, UnitTypeId.PYLON):
-                await bot.build(UnitTypeId.PYLON, build_worker=worker, near=build_pos)
-            if not bot.structures(UnitTypeId.GATEWAY) and can_build_structure(bot, UnitTypeId.GATEWAY): 
-                await bot.build(UnitTypeId.GATEWAY, build_worker=worker, near=build_pos)
-            if not bot.structures(UnitTypeId.CYBERNETICSCORE) and can_build_structure(bot, UnitTypeId.CYBERNETICSCORE):
-               await bot.build(UnitTypeId.CYBERNETICSCORE, build_worker=worker, near=build_pos)
-            if not bot.structures(UnitTypeId.TWILIGHTCOUNCIL) and can_build_structure(bot, UnitTypeId.TWILIGHTCOUNCIL):
-                await bot.build(UnitTypeId.TWILIGHTCOUNCIL, build_worker=worker, near=build_pos)
-
             #chrono_nexus = bot.structures(UnitTypeId.NEXUS).filter(lambda nexus: nexus.energy > 50).closest_to(build_pos)
 
             if bot.step<len(bot.build_order):
@@ -60,8 +51,9 @@ async def macro(bot:BotAI):
             
             if prod_structure is not None:
                 for gate in bot.structures(prod_structure):#.filter(lambda structure: structure):
-                    #if prod_structure == UnitTypeId.GATEWAY:
-                    #   result = await  warp_in_unit(bot, next_step[0], warp_in_pos)
+                    if prod_structure == UnitTypeId.GATEWAY:
+                       result = await  warp_in_unit(bot, next_step[0], warp_in_pos)
+                       return
                     result = await train_unit(bot,next_step[0],gate)
                     if result: 
                         if next_step[1]:
